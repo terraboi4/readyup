@@ -1,7 +1,10 @@
 'use client';
 
-import React, { createElement, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '@/lib/firebase-config';
+import { useUser } from '@clerk/nextjs';
 
 export default function NewSet() {
 	const {
@@ -9,6 +12,7 @@ export default function NewSet() {
 		handleSubmit,
 		formState: { isValid },
 	} = useForm();
+	const { user } = useUser();
 
 	const Card = ({ num }: { num: number }) => {
 		return (
@@ -99,8 +103,10 @@ export default function NewSet() {
 		setQuestions(updatedQuestions);
 	};
 
-	const onSubmit = (data: Object) => {
-		console.log(data);
+	const setsRef = collection(db, 'sets');
+
+	const onSubmit = async (data: Object) => {
+		await addDoc(setsRef, { data, user: user?.id });
 	};
 
 	return (
