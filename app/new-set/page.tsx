@@ -9,18 +9,6 @@ export default function NewSet() {
 		handleSubmit,
 		formState: { isValid },
 	} = useForm();
-	const [questions, setQuestions] = useState<React.JSX.Element[]>([]);
-
-	const onSubmit = (data: Object) => {
-		console.log(data);
-	};
-
-	const addQuestion = () => {
-		setQuestions([
-			...questions,
-			<Card key={questions.length} num={questions.length} />,
-		]);
-	};
 
 	const Card = ({ num }: { num: number }) => {
 		return (
@@ -71,7 +59,11 @@ export default function NewSet() {
 					</div>
 				</div>
 				<div className='card-actions justify-end m-2'>
-					<button>
+					<button
+						onClick={() => {
+							removeQuestion(num);
+						}}
+					>
 						<svg
 							xmlns='http://www.w3.org/2000/svg'
 							fill='none'
@@ -92,6 +84,25 @@ export default function NewSet() {
 		);
 	};
 
+	const [questions, setQuestions] = useState<React.JSX.Element[]>([]);
+
+	const addQuestion = () => {
+		setQuestions([
+			...questions,
+			<Card key={questions.length} num={questions.length} />,
+		]);
+	};
+
+	const removeQuestion = (cardIndex: number) => {
+		const updatedQuestions = [...questions];
+		updatedQuestions.splice(cardIndex, 1);
+		setQuestions(updatedQuestions);
+	};
+
+	const onSubmit = (data: Object) => {
+		console.log(data);
+	};
+
 	return (
 		<div className='text-center'>
 			<h1 className='h1'>New Set</h1>
@@ -104,7 +115,7 @@ export default function NewSet() {
 			{questions.map((q, i) => {
 				return q;
 			})}
-			<div className='space-x-2'>
+			<div className='space-x-2 py-2'>
 				<button className='btn btn-primary' onClick={addQuestion}>
 					Add Question
 				</button>
