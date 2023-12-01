@@ -24,34 +24,54 @@ export default function NewSet() {
 						className='input input-bordered w-1/2 mx-auto'
 						placeholder='Question Title'
 					/>
-					<div className='grid grid-cols-2 gap-2 pt-2'>
-						<input
-							{...register(`${num + 1}_answer1`, { required: true })}
-							type='text'
-							className='input input-bordered input-error'
-							placeholder='Answer 1'
-						/>
+					<div className='grid grid-cols-2 gap-2 pt-2 content-center'>
+						<div className='indicator'>
+							<span className='indicator-item'>
+								<input type='checkbox' className='checkbox checkbox-primary' />
+							</span>
+							<input
+								{...register(`${num + 1}_answer1`, { required: true })}
+								type='text'
+								className='input input-bordered input-error'
+								placeholder='Answer 1'
+							/>
+						</div>
 
-						<input
-							{...register(`${num + 1}_answer2`, { required: true })}
-							type='text'
-							className='input input-bordered input-warning'
-							placeholder='Answer 2'
-						/>
+						<div className='indicator'>
+							<span className='indicator-item'>
+								<input type='checkbox' className='checkbox checkbox-primary' />
+							</span>
+							<input
+								{...register(`${num + 1}_answer2`, { required: true })}
+								type='text'
+								className='input input-bordered input-warning'
+								placeholder='Answer 2'
+							/>
+						</div>
 
-						<input
-							{...register(`${num + 1}_answer3`, { required: true })}
-							type='text'
-							className='input input-bordered input-success'
-							placeholder='Answer 3'
-						/>
+						<div className='indicator'>
+							<span className='indicator-item'>
+								<input type='checkbox' className='checkbox checkbox-primary' />
+							</span>
+							<input
+								{...register(`${num + 1}_answer3`, { required: true })}
+								type='text'
+								className='input input-bordered input-success'
+								placeholder='Answer 3'
+							/>
+						</div>
 
-						<input
-							{...register(`${num + 1}_answer4`, { required: true })}
-							type='text'
-							className='input input-bordered input-info'
-							placeholder='Answer 4'
-						/>
+						<div className='indicator'>
+							<span className='indicator-item'>
+								<input type='checkbox' className='checkbox checkbox-primary' />
+							</span>
+							<input
+								{...register(`${num + 1}_answer4`, { required: true })}
+								type='text'
+								className='input input-bordered input-info'
+								placeholder='Answer 4'
+							/>
+						</div>
 					</div>
 					<div className='text-center p-2'>
 						<input
@@ -89,6 +109,7 @@ export default function NewSet() {
 	};
 
 	const [questions, setQuestions] = useState<React.JSX.Element[]>([]);
+	const [loading, setLoading] = useState(false);
 
 	const addQuestion = () => {
 		setQuestions([
@@ -106,7 +127,9 @@ export default function NewSet() {
 	const setsRef = collection(db, 'sets');
 
 	const onSubmit = async (data: Object) => {
+		setLoading(true);
 		await addDoc(setsRef, { data, user: user?.id });
+		setLoading(false);
 	};
 
 	return (
@@ -129,8 +152,13 @@ export default function NewSet() {
 					type='submit'
 					className='btn'
 					onClick={handleSubmit(onSubmit)}
-					disabled={!isValid}
+					disabled={!isValid || questions.length == 0}
 				>
+					{loading ? (
+						<span className='loading loading-spinner loading-sm'></span>
+					) : (
+						<></>
+					)}{' '}
 					Finish Quiz
 				</button>
 			</div>
