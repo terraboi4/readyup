@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '@/lib/firebase-config';
 import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 export default function NewSet() {
 	const {
@@ -19,66 +20,41 @@ export default function NewSet() {
 			<div className='card bg-base-200 my-4 lg:w-2/3 mx-auto'>
 				<div className='card-body'>
 					<input
-						{...register(`${num + 1}_questionTitle`, { required: true })}
+						{...register(`${num + 1}_questionTitle`, {
+							required: true,
+							value: '1',
+						})}
 						type='text'
 						className='input input-bordered w-1/2 mx-auto'
 						placeholder='Question Title'
 					/>
 					<div className='grid grid-cols-2 gap-2 pt-2 content-center'>
-						<div className='indicator'>
-							<span className='indicator-item'>
-								<input type='checkbox' className='checkbox checkbox-primary' />
-							</span>
-							<input
-								{...register(`${num + 1}_answer1`, { required: true })}
-								type='text'
-								className='input input-bordered input-error'
-								placeholder='Answer 1'
-							/>
-						</div>
-
-						<div className='indicator'>
-							<span className='indicator-item'>
-								<input type='checkbox' className='checkbox checkbox-primary' />
-							</span>
-							<input
-								{...register(`${num + 1}_answer2`, { required: true })}
-								type='text'
-								className='input input-bordered input-warning'
-								placeholder='Answer 2'
-							/>
-						</div>
-
-						<div className='indicator'>
-							<span className='indicator-item'>
-								<input type='checkbox' className='checkbox checkbox-primary' />
-							</span>
-							<input
-								{...register(`${num + 1}_answer3`, { required: true })}
-								type='text'
-								className='input input-bordered input-success'
-								placeholder='Answer 3'
-							/>
-						</div>
-
-						<div className='indicator'>
-							<span className='indicator-item'>
-								<input type='checkbox' className='checkbox checkbox-primary' />
-							</span>
-							<input
-								{...register(`${num + 1}_answer4`, { required: true })}
-								type='text'
-								className='input input-bordered input-info'
-								placeholder='Answer 4'
-							/>
-						</div>
-					</div>
-					<div className='text-center p-2'>
 						<input
-							{...register(`${num + 1}_correctAnswer`, { required: true })}
+							{...register(`${num + 1}_answer1`, { required: true })}
 							type='text'
-							className='input input-bordered'
-							placeholder='Correct Answer (1, 2, 3, 4)'
+							className='input input-bordered input-error'
+							placeholder='Answer 1 (Correct)'
+						/>
+
+						<input
+							{...register(`${num + 1}_answer2`, { required: true })}
+							type='text'
+							className='input input-bordered input-warning'
+							placeholder='Answer 2'
+						/>
+
+						<input
+							{...register(`${num + 1}_answer3`, { required: true })}
+							type='text'
+							className='input input-bordered input-success'
+							placeholder='Answer 3'
+						/>
+
+						<input
+							{...register(`${num + 1}_answer4`, { required: true })}
+							type='text'
+							className='input input-bordered input-info'
+							placeholder='Answer 4'
 						/>
 					</div>
 				</div>
@@ -125,11 +101,12 @@ export default function NewSet() {
 	};
 
 	const setsRef = collection(db, 'sets');
-
+	const router = useRouter();
 	const onSubmit = async (data: Object) => {
 		setLoading(true);
-		await addDoc(setsRef, { data, user: user?.id });
+		await addDoc(setsRef, { ...data, user: user?.id });
 		setLoading(false);
+		router.push('/home');
 	};
 
 	return (
