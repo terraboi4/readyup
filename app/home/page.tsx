@@ -2,7 +2,7 @@
 
 import { useUser } from '@clerk/nextjs';
 
-export default async function Home() {
+export default function Home() {
 	const { user } = useUser();
 
 	return (
