@@ -4,7 +4,7 @@ Implementing more game modes (like Blooket)
 Adding prices/AI-generated quizzes.
 
 (Possible) names:
-Quizify, Aceify
+ReadyUp, Aceify
 
 Game modes
 Hot potato - virtual hot potato passed around. Answer the question correctly before time runs out or you are eliminated. Goes to last one standing in circle

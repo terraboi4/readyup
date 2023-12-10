@@ -25,16 +25,21 @@ export default function Navbar() {
 						tabIndex={0}
 						className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
 					>
+            <li>
+							<a href='/home'>Home</a>
+						</li>
 						<li>
 							<a href='/new-set'>New Set</a>
 						</li>
 						<li>
 							<a href='/your-sets'>Your Sets</a>
 						</li>
+            <li><a href="/join">Join Game</a></li>
 						<li>
 							<a>Games</a>
 							<ul className='p-2'>
-								<li>
+								<li><a>ReadyUp Racing</a></li>
+                <li>
 									<a>Hot Potato</a>
 								</li>
 								<li>
@@ -47,21 +52,26 @@ export default function Navbar() {
 						</li>
 					</ul>
 				</div>
-				<a className='btn btn-ghost text-xl'>Quizify</a>
+				<a className='btn btn-ghost text-xl'>ReadyUp</a>
 			</div>
 			<div className='navbar-center hidden lg:flex'>
 				<ul className='menu menu-horizontal px-1 z-30'>
+        <li>
+						<a href='/home'>Home</a>
+					</li>
 					<li>
 						<a href='/new-set'>New Set</a>
 					</li>
 					<li>
 						<a href='/your-sets'>Your Sets</a>
 					</li>
+          <li><a href="/join">Join Game</a></li>
 					<li tabIndex={0}>
 						<details>
 							<summary>Games</summary>
 							<ul className='p-2'>
-								<li>
+								<li><a>ReadyUp Racing</a></li>
+                <li>
 									<a>Hot Potato</a>
 								</li>
 								<li>

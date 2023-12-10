@@ -22,7 +22,7 @@ export default function NewSet() {
 					<input
 						{...register(`${num + 1}_questionTitle`, {
 							required: true,
-							value: '1',
+						
 						})}
 						type='text'
 						className='input input-bordered w-1/2 mx-auto'
