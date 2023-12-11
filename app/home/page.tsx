@@ -16,6 +16,18 @@ export default function Home() {
 							<img src='https://placehold.co/600x400' alt='Shoes' />
 						</figure>
 						<div className='card-body'>
+							<h2 className='card-title'>ReadyUp Racing</h2>
+							<p>Race against your friends and try to be #1!</p>
+							<div className='card-actions justify-end'>
+								<button className='btn btn-primary'>Play</button>
+							</div>
+						</div>
+					</div>
+					<div className='card shadow-xl image-full'>
+						<figure>
+							<img src='https://placehold.co/600x400' alt='Shoes' />
+						</figure>
+						<div className='card-body'>
 							<h2 className='card-title'>Hot Potato</h2>
 							<p>
 								Answer the question correctly before time runs out or you are
