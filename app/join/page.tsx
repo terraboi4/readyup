@@ -7,11 +7,33 @@ type Data = {
 	nickname: String;
 };
 
+import {
+	QuerySnapshot,
+	collection,
+	onSnapshot,
+	query,
+	where,
+} from 'firebase/firestore';
+import { useEffect } from 'react';
+import { db } from '@/lib/firebase-config';
+
 export default function JoinGame() {
 	const { register, handleSubmit } = useForm<Data>();
 
 	const submit = async (data: Data) => {
-		console.log(data);
+		const gamesRef = collection(db, 'games');
+		const q = query(gamesRef);
+		onSnapshot(q, (snapshot) => {
+			let s: Object[] = [];
+			snapshot.forEach((doc) => {
+				s.push({ ...doc.data(), id: doc.id });
+			});
+			s.forEach((game) => {
+				if (game.id == data.pin) {
+					// Join them into game
+				}
+			});
+		});
 	};
 
 	return (

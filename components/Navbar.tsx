@@ -25,7 +25,7 @@ export default function Navbar() {
 						tabIndex={0}
 						className='menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52'
 					>
-            <li>
+						<li>
 							<a href='/home'>Home</a>
 						</li>
 						<li>
@@ -34,12 +34,14 @@ export default function Navbar() {
 						<li>
 							<a href='/your-sets'>Your Sets</a>
 						</li>
-            <li><a href="/join">Join Game</a></li>
+
 						<li>
 							<a>Games</a>
 							<ul className='p-2'>
-								<li><a>ReadyUp Racing</a></li>
-                <li>
+								<li>
+									<a>ReadyUp Racing</a>
+								</li>
+								<li>
 									<a>Hot Potato</a>
 								</li>
 								<li>
@@ -56,7 +58,7 @@ export default function Navbar() {
 			</div>
 			<div className='navbar-center hidden lg:flex'>
 				<ul className='menu menu-horizontal px-1 z-30'>
-        <li>
+					<li>
 						<a href='/home'>Home</a>
 					</li>
 					<li>
@@ -65,13 +67,15 @@ export default function Navbar() {
 					<li>
 						<a href='/your-sets'>Your Sets</a>
 					</li>
-          <li><a href="/join">Join Game</a></li>
+
 					<li tabIndex={0}>
 						<details>
 							<summary>Games</summary>
 							<ul className='p-2'>
-								<li><a>ReadyUp Racing</a></li>
-                <li>
+								<li>
+									<a>ReadyUp Racing</a>
+								</li>
+								<li>
 									<a>Hot Potato</a>
 								</li>
 								<li>
@@ -85,7 +89,28 @@ export default function Navbar() {
 					</li>
 				</ul>
 			</div>
-			<div className='navbar-end'>
+			<div className='navbar-end space-x-2'>
+				<a href='/join'>
+					<button className='btn btn-primary'>
+						<span>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								fill='none'
+								viewBox='0 0 24 24'
+								strokeWidth={1.5}
+								stroke='currentColor'
+								className='w-6 h-6'
+							>
+								<path
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									d='M12 4.5v15m7.5-7.5h-15'
+								/>
+							</svg>
+						</span>
+						Join Game
+					</button>
+				</a>
 				<UserButton afterSignOutUrl='/' />
 			</div>
 		</div>

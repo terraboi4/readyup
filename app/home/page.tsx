@@ -17,7 +17,7 @@ export default function Home() {
 						</figure>
 						<div className='card-body'>
 							<h2 className='card-title'>ReadyUp Racing</h2>
-							<p>Race against your friends and try to be #1!</p>
+							<p>Race against your friends and try to be number one!</p>
 							<div className='card-actions justify-end'>
 								<button className='btn btn-primary'>Play</button>
 							</div>
