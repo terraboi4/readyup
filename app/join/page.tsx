@@ -30,7 +30,7 @@ export default function JoinGame() {
 			});
 			s.forEach((game) => {
 				if (game.id == data.pin) {
-					// Join them into game
+					//join them into game
 				}
 			});
 		});

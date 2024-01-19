@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/lib/firebase-config';
 import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
@@ -22,7 +22,6 @@ export default function NewSet() {
 					<input
 						{...register(`${num + 1}_questionTitle`, {
 							required: true,
-						
 						})}
 						type='text'
 						className='input input-bordered w-1/2 mx-auto'
@@ -104,7 +103,11 @@ export default function NewSet() {
 	const router = useRouter();
 	const onSubmit = async (data: Object) => {
 		setLoading(true);
-		await addDoc(setsRef, { ...data, user: user?.id });
+		await addDoc(setsRef, {
+			...data,
+			user: user?.id,
+			createdAt: serverTimestamp(),
+		});
 		setLoading(false);
 		router.push('/home');
 	};
