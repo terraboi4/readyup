@@ -1,15 +1,26 @@
-'use client';
+'use client'
 
-import { useUser } from '@clerk/nextjs';
+import { useRouter, useSearchParams } from "next/navigation"
+import { useEffect, useState } from "react"
 
-export default function Home() {
-	const { user } = useUser();
 
-	return (
-		<div>
-			<h1 className='h1'>Hey, {user?.firstName + '!' ?? 'ready to learn?'}</h1>
-			<div>
-				<h2 className='text-2xl font-semibold mb-3'>Games</h2>
+export default function Host() {
+const searchParams = useSearchParams()
+    const [game, setGame] = useState(searchParams.get('game') ?? null)
+
+const router = useRouter()
+    useEffect(()=>{
+        if (game) {
+           router.push(`/host/start?game=${game}`) 
+        }
+    },[game])
+
+
+return(
+    <div>
+        <h1 className="h1">Choose your gamemode!</h1>
+
+				
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
 					<div className='card shadow-xl image-full'>
 						<figure>
@@ -19,7 +30,9 @@ export default function Home() {
 							<h2 className='card-title'>ReadyUp Racing</h2>
 							<p>Race against your friends and try to be number one!</p>
 							<div className='card-actions justify-end'>
-								<a href="/host/start?game=racing"><button className='btn btn-primary'>Play</button></a>
+								<button onClick={()=>{
+                                    setGame('racing')
+                                }} className='btn btn-primary'>Play</button>
 							</div>
 						</div>
 					</div>
@@ -34,7 +47,7 @@ export default function Home() {
 								eliminated!
 							</p>
 							<div className='card-actions justify-end'>
-								<a href="/host/start?game=hotpotato"><button className='btn btn-primary'>Play</button></a>
+								<button onClick={()=>{setGame('hotpotato')}} className='btn btn-primary'>Play</button>
 							</div>
 						</div>
 					</div>
@@ -46,7 +59,7 @@ export default function Home() {
 							<h2 className='card-title'>BuzzIn Bracket</h2>
 							<p>Compete against your friends in a bracket-style tournament!</p>
 							<div className='card-actions justify-end'>
-								<a href="/host/start?game=buzzin"><button className='btn btn-primary'>Play</button></a>
+								<button onClick={()=>{setGame('buzzin')}} className='btn btn-primary'>Play</button>
 							</div>
 						</div>
 					</div>
@@ -61,12 +74,11 @@ export default function Home() {
 								treasure chest might be hidden around the map!
 							</p>
 							<div className='card-actions justify-end'>
-								<a href="/host/start?game=scavenger"><button className='btn btn-primary'>Play</button></a>
+								<button onClick={()=>{setGame('scavenger')}} className='btn btn-primary'>Play</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-	);
+)
 }
