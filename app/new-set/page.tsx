@@ -109,7 +109,7 @@ export default function NewSet() {
 			createdAt: serverTimestamp(),
 		});
 		setLoading(false);
-		router.push('/home');
+		router.push('/your-sets');
 	};
 
 	return (
@@ -134,9 +134,9 @@ export default function NewSet() {
 					onClick={handleSubmit(onSubmit)}
 					disabled={!isValid || questions.length == 0}
 				>
-					{loading &&
+					{loading && (
 						<span className='loading loading-spinner loading-sm'></span>
-					}{' '}
+					)}{' '}
 					Finish Quiz
 				</button>
 			</div>

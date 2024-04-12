@@ -34,7 +34,7 @@ export default function JoinGame() {
 		const unsubscribe = onSnapshot(q, (snapshot) => {
 			let s: Object[] = [];
 			snapshot.forEach((doc) => {
-				s.push({ ...doc.data(), id: doc.id });
+				s.push({ ...doc.data() });
 			});
 
 			s.forEach(async (game: any) => {
