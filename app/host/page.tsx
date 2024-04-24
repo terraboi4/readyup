@@ -111,8 +111,12 @@ export default function StartGame() {
 					</div>
 					<div className='text-center p-4 space-x-2'>
 						{users
-							? users.map((user: any) => {
-									return <span className='badge badge-lg'>{user}</span>;
+							? users.map((user: any, key) => {
+									return (
+										<span key={key} className='badge badge-lg'>
+											{user}
+										</span>
+									);
 							  })
 							: 'Waiting for users...'}
 					</div>

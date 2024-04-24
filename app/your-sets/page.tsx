@@ -54,9 +54,9 @@ export default function YourSets() {
 			<h1>Your Sets</h1>
 			<div className='card w-4/5 mx-auto bg-base-100 shadow-xl pb-4'>
 				{sets.length != 0 ? (
-					sets.map((set) => {
+					sets.map((set, key) => {
 						return (
-							<div className='border rounded-xl mx-4 mt-4'>
+							<div className='border rounded-xl mx-4 mt-4' key={key}>
 								<div className='card-body'>
 									<h2 className='card-title'>{set.setTitle}</h2>
 									<p>
@@ -233,7 +233,7 @@ export default function YourSets() {
 					})
 				) : (
 					<p className='text-center font-medium'>
-						😭 Looks like you don't have any sets... Make one{' '}
+						😭 Looks like you don&apos;t have any sets... Make one{' '}
 						<a href='/new-set' className='link link-primary'>
 							here
 						</a>
