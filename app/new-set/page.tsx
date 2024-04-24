@@ -114,7 +114,7 @@ export default function NewSet() {
 
 	return (
 		<div className='text-center'>
-			<h1 className='h1'>New Set</h1>
+			<h1>New Set</h1>
 			<input
 				{...register('setTitle', { required: true })}
 				type='text'

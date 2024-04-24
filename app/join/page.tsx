@@ -38,17 +38,18 @@ export default function JoinGame() {
 			});
 
 			s.forEach(async (game: any) => {
-				if (game.id == data.pin) {
-					const docRef = doc(gamesRef, game.id);
+				if (game.pin == data.pin) {
+					const docRef = doc(gamesRef, game.pin.toString());
 
 					setDoc(docRef, {
 						state: 'WAITING',
+						pin: game.pin,
 						users: [...game.users, data.nickname],
 					});
 
 					setLoading(false);
 
-					router.push(`game/${game.id}?username=${data.nickname}`);
+					router.push(`game/${game.pin}?username=${data.nickname}`);
 					unsubscribe();
 				} else {
 					toast.error('No game found with this PIN.');
@@ -61,7 +62,7 @@ export default function JoinGame() {
 
 	return (
 		<div>
-			<h1 className='h1'>Join Game</h1>
+			<h1>Join Game</h1>
 			<form
 				className='text-center space-y-4 flex flex-col w-1/2 lg:w-1/3 mx-auto'
 				onSubmit={handleSubmit(submit)}
@@ -69,13 +70,13 @@ export default function JoinGame() {
 				<p className='text-lg'>Enter your PIN Code and nickname</p>
 				<input
 					type='number'
-					className='input input-primary'
+					className='input input-bordered'
 					placeholder='PIN Code'
 					{...register('pin', { required: true })}
 				/>
 				<input
 					type='text'
-					className='input input-primary'
+					className='input input-bordered'
 					placeholder='Nickname'
 					{...register('nickname', { required: true })}
 				/>

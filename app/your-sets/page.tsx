@@ -11,14 +11,22 @@ import {
 	query,
 	where,
 } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 
 import React, { useEffect, useState } from 'react';
 
 export default function YourSets() {
 	const { user } = useUser();
 	const [sets, setSets] = useState<Array<any>>([]);
-
 	const setsRef = collection(db, 'sets');
+
+	const router = useRouter();
+
+	const sendGame = (game: String, id: String) => {
+		const pin = 100000 + Math.floor(Math.random() * 900000);
+		const encodedPin = btoa(`${game};${pin};${id}`);
+		router.push(`/host?id=${encodedPin}`);
+	};
 
 	const removeSet = async (createdAt: Timestamp) => {
 		const q = query(setsRef, where('createdAt', '==', createdAt));
@@ -43,13 +51,12 @@ export default function YourSets() {
 
 	return (
 		<div>
-			<h1 className='h1'>Your Sets</h1>
-
-			{sets.length != 0 ? (
-				sets.map((set) => {
-					return (
-						<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
-							<div className='card w-1/2 mx-auto bg-base-100 shadow-xl'>
+			<h1>Your Sets</h1>
+			<div className='card w-4/5 mx-auto bg-base-100 shadow-xl pb-4'>
+				{sets.length != 0 ? (
+					sets.map((set) => {
+						return (
+							<div className='border rounded-xl mx-4 mt-4'>
 								<div className='card-body'>
 									<h2 className='card-title'>{set.setTitle}</h2>
 									<p>
@@ -60,7 +67,143 @@ export default function YourSets() {
 									</p>
 									<div className='card-actions justify-end'>
 										<button className='btn'>Edit</button>
-										<button className='btn btn-primary'>Play</button>
+										<button
+											className='btn btn-primary'
+											onClick={() =>
+												document.getElementById('my_modal_4')!.showModal()
+											}
+										>
+											Play
+										</button>
+										<dialog id='my_modal_4' className='modal'>
+											<div className='modal-box w-11/12 max-w-5xl'>
+												<h1 className='font-bold text-2xl'>Games</h1>
+												<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
+													<a
+														className='hover:scale-105 transition duration-200 ease-in-out cursor-pointer'
+														onClick={() => {
+															sendGame('racing', set.id);
+														}}
+													>
+														<div className='card shadow-xl image-full'>
+															<figure>
+																<img
+																	src='https://placehold.co/600x400'
+																	alt='Shoes'
+																/>
+															</figure>
+															<div className='card-body'>
+																<h2 className='card-title'>ReadyUp Racing</h2>
+																<p>
+																	Race against your friends and try to be number
+																	one!
+																</p>
+																<div className='card-actions justify-end'>
+																	<a
+																		onClick={() => {
+																			sendGame('racing', set.id);
+																		}}
+																	></a>
+																</div>
+															</div>
+														</div>
+													</a>
+													<a
+														className='hover:scale-105 transition duration-200 ease-in-out cursor-pointer'
+														onClick={() => {
+															sendGame('hotpotato', set.id);
+														}}
+													>
+														<div className='card shadow-xl image-full'>
+															<figure>
+																<img
+																	src='https://placehold.co/600x400'
+																	alt='Shoes'
+																/>
+															</figure>
+															<div className='card-body'>
+																<h2 className='card-title'>Hot Potato</h2>
+																<p>
+																	Answer the question correctly before time runs
+																	out or you are eliminated!
+																</p>
+																<div className='card-actions justify-end'>
+																	<a
+																		onClick={() => {
+																			sendGame('hotpotato', set.id);
+																		}}
+																	></a>
+																</div>
+															</div>
+														</div>
+													</a>
+													<a
+														className='hover:scale-105 transition duration-200 ease-in-out cursor-pointer'
+														onClick={() => {
+															sendGame('buzzin', set.id);
+														}}
+													>
+														<div className='card shadow-xl image-full'>
+															<figure>
+																<img
+																	src='https://placehold.co/600x400'
+																	alt='Shoes'
+																/>
+															</figure>
+															<div className='card-body'>
+																<h2 className='card-title'>BuzzIn Bracket</h2>
+																<p>
+																	Compete against your friends in a
+																	bracket-style tournament!
+																</p>
+																<div className='card-actions justify-end'>
+																	<a
+																		onClick={() => {
+																			sendGame('buzzin', set.id);
+																		}}
+																	></a>
+																</div>
+															</div>
+														</div>
+													</a>
+													<a
+														className='hover:scale-105 transition duration-200 ease-in-out cursor-pointer'
+														onClick={() => {
+															sendGame('scavenger', set.id);
+														}}
+													>
+														<div className='card shadow-xl image-full'>
+															<figure>
+																<img
+																	src='https://placehold.co/600x400'
+																	alt='Shoes'
+																/>
+															</figure>
+															<div className='card-body'>
+																<h2 className='card-title'>Scavenger Hunt</h2>
+																<p>
+																	Answer questions correctly to unlock helpful
+																	clues as to where a treasure chest might be
+																	hidden around the map!
+																</p>
+																<div className='card-actions justify-end'>
+																	<a
+																		onClick={() => {
+																			sendGame('scavenger', set.id);
+																		}}
+																	></a>
+																</div>
+															</div>
+														</div>
+													</a>
+												</div>
+												<div className='modal-action'>
+													<form method='dialog'>
+														<button className='btn'>Close</button>
+													</form>
+												</div>
+											</div>
+										</dialog>
 									</div>
 								</div>
 								<div className='card-actions justify-end m-2'>
@@ -86,17 +229,17 @@ export default function YourSets() {
 									</button>
 								</div>
 							</div>
-						</div>
-					);
-				})
-			) : (
-				<p className='text-center font-medium'>
-					😭 Looks like you don't have any sets... Make one{' '}
-					<a href='/new-set' className='link link-primary'>
-						here
-					</a>
-				</p>
-			)}
+						);
+					})
+				) : (
+					<p className='text-center font-medium'>
+						😭 Looks like you don't have any sets... Make one{' '}
+						<a href='/new-set' className='link link-primary'>
+							here
+						</a>
+					</p>
+				)}
+			</div>
 		</div>
 	);
 }

@@ -2,10 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-.h1 {
+h1 {
     padding-bottom: 0.5rem; 
 font-size: 1.875rem;
 line-height: 2.25rem; 
 font-weight: 600; 
 text-align: center; 
+}
+
+.btn {
+    @apply rounded-md
+}
+
+.card {
+    @apply shadow-none border
 }

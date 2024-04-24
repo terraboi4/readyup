@@ -1,84 +1,128 @@
-'use client'
+'use client';
 
-import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useState } from "react"
+import { db } from '@/lib/firebase-config';
+import {
+	collection,
+	setDoc,
+	doc,
+	serverTimestamp,
+	query,
+	onSnapshot,
+	where,
+	getDoc,
+} from 'firebase/firestore';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
+export default function StartGame() {
+	const searchParams = useSearchParams();
 
-export default function Host() {
-const searchParams = useSearchParams()
-    const [game, setGame] = useState(searchParams.get('game') ?? null)
+	const id = searchParams.get('id');
+	let decodedId;
+	if (id) {
+		decodedId = atob(id)?.split(';');
+	}
+	const game = decodedId?.[0];
+	const pin = decodedId?.[1];
+	const setId = decodedId?.[2];
 
-const router = useRouter()
-    useEffect(()=>{
-        if (game) {
-           router.push(`/host/start?game=${game}`) 
-        }
-    },[game])
+	const gamesRef = collection(db, 'games');
+	const gameDoc = doc(db, 'games', pin ?? '0');
+	const [users, setUsers] = useState<Array<any>>([]);
+	const [currentScreen, setCurrentScreen] = useState('waiting');
 
+	const makeGame = async () => {
+		await setDoc(gameDoc, {
+			pin: pin,
+			state: 'WAITING',
+			users: [],
+			createdAt: serverTimestamp(),
+		});
+	};
+	useEffect(() => {
+		getDoc(gameDoc).then(async (snapshot) => {
+			if (!snapshot.exists()) {
+				console.log('it doesnt exist');
 
-return(
-    <div>
-        <h1 className="h1">Choose your gamemode!</h1>
+				makeGame();
+				const q = query(gamesRef, where('pin', '==', pin));
 
-				
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
-					<div className='card shadow-xl image-full'>
-						<figure>
-							<img src='https://placehold.co/600x400' alt='Shoes' />
-						</figure>
-						<div className='card-body'>
-							<h2 className='card-title'>ReadyUp Racing</h2>
-							<p>Race against your friends and try to be number one!</p>
-							<div className='card-actions justify-end'>
-								<button onClick={()=>{
-                                    setGame('racing')
-                                }} className='btn btn-primary'>Play</button>
-							</div>
-						</div>
-					</div>
-					<div className='card shadow-xl image-full'>
-						<figure>
-							<img src='https://placehold.co/600x400' alt='Shoes' />
-						</figure>
-						<div className='card-body'>
-							<h2 className='card-title'>Hot Potato</h2>
-							<p>
-								Answer the question correctly before time runs out or you are
-								eliminated!
+				onSnapshot(q, (snapshot) => {
+					let currentUsers = {};
+					snapshot.forEach((doc) => {
+						currentUsers = doc.data().users; // Access the "users" field directly
+					});
+
+					setUsers(currentUsers);
+				});
+			} else {
+				console.log('it exists');
+
+				const q = query(gamesRef, where('pin', '==', pin));
+
+				onSnapshot(q, (snapshot) => {
+					let currentUsers = {};
+					snapshot.forEach((doc) => {
+						currentUsers = doc.data().users; // Access the "users" field directly
+					});
+
+					setUsers(currentUsers);
+				});
+			}
+		});
+	}, [pin]);
+
+	const startGame = async () => {
+		await setDoc(gameDoc, {
+			pin: pin,
+			state: 'GAMING',
+			users: [...users],
+			createdAt: serverTimestamp(),
+		});
+		setCurrentScreen('gaming');
+	};
+
+	return (
+		<div>
+			{currentScreen == 'waiting' && (
+				<div>
+					<div className='navbar mb-4'>
+						<div className='navbar-start'></div>
+						<div className='navbar-center flex-col space-y-2'>
+							<p className='font-bold'>
+								Go to readyup.com/join and enter this pin:
 							</p>
-							<div className='card-actions justify-end'>
-								<button onClick={()=>{setGame('hotpotato')}} className='btn btn-primary'>Play</button>
+							<div className='tooltip tooltip-right' data-tip='Click to copy'>
+								<button
+									className='btn btn-lg !text-3xl'
+									onClick={() => {
+										navigator.clipboard.writeText((pin ?? '').toString());
+									}}
+								>
+									{pin}
+								</button>
 							</div>
+						</div>
+						<div className='navbar-end'>
+							<button className='btn btn-primary' onClick={startGame}>
+								Start Game
+							</button>
 						</div>
 					</div>
-					<div className='card shadow-xl image-full'>
-						<figure>
-							<img src='https://placehold.co/600x400' alt='Shoes' />
-						</figure>
-						<div className='card-body'>
-							<h2 className='card-title'>BuzzIn Bracket</h2>
-							<p>Compete against your friends in a bracket-style tournament!</p>
-							<div className='card-actions justify-end'>
-								<button onClick={()=>{setGame('buzzin')}} className='btn btn-primary'>Play</button>
-							</div>
-						</div>
-					</div>
-					<div className='card shadow-xl image-full'>
-						<figure>
-							<img src='https://placehold.co/600x400' alt='Shoes' />
-						</figure>
-						<div className='card-body'>
-							<h2 className='card-title'>Scavenger Hunt</h2>
-							<p>
-								Answer questions correctly to unlock helpful clues as to where a
-								treasure chest might be hidden around the map!
-							</p>
-							<div className='card-actions justify-end'>
-								<button onClick={()=>{setGame('scavenger')}} className='btn btn-primary'>Play</button>
-							</div>
-						</div>
+					<div className='text-center p-4 space-x-2'>
+						{users
+							? users.map((user: any) => {
+									return <span className='badge badge-lg'>{user}</span>;
+							  })
+							: 'Waiting for users...'}
 					</div>
 				</div>
-			</div>
-)
+			)}
+			{currentScreen == 'gaming' && (
+				<div>
+					<p>{game}</p>
+				</div>
+			)}
+		</div>
+	);
 }
