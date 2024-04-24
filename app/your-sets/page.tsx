@@ -70,7 +70,11 @@ export default function YourSets() {
 										<button
 											className='btn btn-primary'
 											onClick={() =>
-												document.getElementById('my_modal_4')!.showModal()
+												(
+													document.getElementById(
+														'my_modal_4'
+													) as HTMLDialogElement
+												).showModal()
 											}
 										>
 											Play
