@@ -28,7 +28,7 @@ export default function StartGame() {
 
 	const gamesRef = collection(db, 'games');
 	const gameDoc = doc(db, 'games', pin ?? '0');
-	const [users, setUsers] = useState<Array<any>>([]);
+	const [users, setUsers] = useState<any>([]);
 	const [currentScreen, setCurrentScreen] = useState('waiting');
 
 	const makeGame = async () => {
@@ -111,7 +111,7 @@ export default function StartGame() {
 					</div>
 					<div className='text-center p-4 space-x-2'>
 						{users
-							? users.map((user: any, key) => {
+							? users.map((user: any, key: any) => {
 									return (
 										<span key={key} className='badge badge-lg'>
 											{user}
