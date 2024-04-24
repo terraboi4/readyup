@@ -33,10 +33,11 @@ export default function StartGame() {
 
 	const makeGame = async () => {
 		await setDoc(gameDoc, {
-			pin: pin,
+			pin,
 			state: 'WAITING',
 			users: [],
 			createdAt: serverTimestamp(),
+			setId,
 		});
 	};
 	useEffect(() => {
