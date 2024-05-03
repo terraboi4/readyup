@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function Navbar({ page }: { page: any }) {
+export default function Navbar() {
 	let path = usePathname();
 	const navBlacklist = ['/host', '/join', '/game', '/'];
 
