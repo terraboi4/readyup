@@ -22,11 +22,11 @@ const config: Config = {
           
  "info": "#00a8ff",
           
- "success": "#00ffa2",
+ "success": "#5ae33b",
           
- "warning": "#957000",
+ "warning": "#f2d022",
           
- "error": "#cf3450",
+ "error": "#e32d2d",
         }
       }
     ],

@@ -4,6 +4,7 @@ import './globals.css';
 import { ClerkProvider } from '@clerk/nextjs';
 import Navbar from '@/components/Navbar';
 import { Toaster } from 'react-hot-toast';
+import { usePathname } from 'next/navigation';
 const inter = DM_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function RootLayout({
 				<body className={inter.className}>
 					<Toaster />
 					<Navbar />
-					<div className='pt-3 px-2'>{children}</div>
+					<div className='px-2'>{children}</div>
 				</body>
 			</html>
 		</ClerkProvider>

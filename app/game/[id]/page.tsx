@@ -15,6 +15,7 @@ export default function Game({ params }: { params: { id: String } }) {
 	const gameDoc = doc(db, 'games', game!.toString());
 	const unsubscribe = onSnapshot(gameDoc, (doc) => {
 		const data = doc.data()!;
+
 		setSetId(data.setId);
 		if (data.state == 'GAMING') {
 			setState('GAMING');

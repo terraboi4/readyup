@@ -60,8 +60,8 @@ export default function YourSets() {
 								<div className='card-body'>
 									<h2 className='card-title'>{set.setTitle}</h2>
 									<p>
-										{(Object.keys(set).length - 4) / 5}{' '}
-										{(Object.keys(set).length - 4) / 5 == 1
+										{set.questions.split(',').length / 5}{' '}
+										{set.questions.split(',').length / 5 == 1
 											? 'question'
 											: 'questions'}
 									</p>
@@ -72,14 +72,14 @@ export default function YourSets() {
 											onClick={() =>
 												(
 													document.getElementById(
-														'my_modal_4'
+														`my_modal_${key}`
 													) as HTMLDialogElement
 												).showModal()
 											}
 										>
 											Play
 										</button>
-										<dialog id='my_modal_4' className='modal'>
+										<dialog id={`my_modal_${key}`} className='modal'>
 											<div className='modal-box w-11/12 max-w-5xl'>
 												<h1 className='font-bold text-2xl'>Games</h1>
 												<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3'>
@@ -202,7 +202,7 @@ export default function YourSets() {
 													</a>
 												</div>
 												<div className='modal-action'>
-													<form method='dialog'>
+													<form autoComplete='off' method='dialog'>
 														<button className='btn'>Close</button>
 													</form>
 												</div>

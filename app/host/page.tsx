@@ -43,8 +43,6 @@ export default function StartGame() {
 	useEffect(() => {
 		getDoc(gameDoc).then(async (snapshot) => {
 			if (!snapshot.exists()) {
-				console.log('it doesnt exist');
-
 				makeGame();
 				const q = query(gamesRef, where('pin', '==', pin));
 
@@ -57,8 +55,6 @@ export default function StartGame() {
 					setUsers(currentUsers);
 				});
 			} else {
-				console.log('it exists');
-
 				const q = query(gamesRef, where('pin', '==', pin));
 
 				onSnapshot(q, (snapshot) => {
@@ -79,6 +75,7 @@ export default function StartGame() {
 			state: 'GAMING',
 			users: [...users],
 			createdAt: serverTimestamp(),
+			setId,
 		});
 		setCurrentScreen('gaming');
 	};
@@ -87,7 +84,7 @@ export default function StartGame() {
 		<div>
 			{currentScreen == 'waiting' && (
 				<div>
-					<div className='navbar mb-4'>
+					<div className='navbar my-4'>
 						<div className='navbar-start'></div>
 						<div className='navbar-center flex-col space-y-2'>
 							<p className='font-bold'>
@@ -115,7 +112,7 @@ export default function StartGame() {
 							? users.map((user: any, key: any) => {
 									return (
 										<span key={key} className='badge badge-lg'>
-											{user}
+											{user.nickname}
 										</span>
 									);
 							  })

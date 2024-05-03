@@ -44,7 +44,8 @@ export default function JoinGame() {
 					setDoc(docRef, {
 						state: 'WAITING',
 						pin: game.pin,
-						users: [...game.users, data.nickname],
+						setId: game.setId,
+						users: [...game.users, { nickname: data.nickname, points: 0 }],
 					});
 
 					setLoading(false);
@@ -61,9 +62,10 @@ export default function JoinGame() {
 	};
 
 	return (
-		<div>
+		<div className='h-screen flex flex-col items-center justify-center'>
 			<h1>Join Game</h1>
 			<form
+				autoComplete='off'
 				className='text-center space-y-4 flex flex-col w-1/2 lg:w-1/3 mx-auto'
 				onSubmit={handleSubmit(submit)}
 			>
