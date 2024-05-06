@@ -122,7 +122,17 @@ export default function StartGame() {
 			)}
 			{currentScreen == 'gaming' && (
 				<div>
-					<p>{game}</p>
+					<p>
+						{users.map((user: any, key: any) => {
+							return (
+								<div>
+									<p>
+										{user.nickname}: {user.points}
+									</p>
+								</div>
+							);
+						})}
+					</p>
 				</div>
 			)}
 		</div>

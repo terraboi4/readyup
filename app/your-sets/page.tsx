@@ -55,13 +55,14 @@ export default function YourSets() {
 			<div className='card w-4/5 mx-auto bg-base-100 shadow-xl pb-4'>
 				{sets.length != 0 ? (
 					sets.map((set, key) => {
+						console.log(set.questions.split(' | '));
 						return (
 							<div className='border rounded-xl mx-4 mt-4' key={key}>
 								<div className='card-body'>
 									<h2 className='card-title'>{set.setTitle}</h2>
 									<p>
-										{set.questions.split(',').length / 5}{' '}
-										{set.questions.split(',').length / 5 == 1
+										{set.questions.split('|').length / 5}{' '}
+										{set.questions.split('|').length / 5 == 1
 											? 'question'
 											: 'questions'}
 									</p>

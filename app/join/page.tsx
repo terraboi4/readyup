@@ -66,7 +66,7 @@ export default function JoinGame() {
 			<h1>Join Game</h1>
 			<form
 				autoComplete='off'
-				className='text-center space-y-4 flex flex-col w-1/2 lg:w-1/3 mx-auto'
+				className='text-center space-y-4 flex flex-col sm:w-3/4 lg:w-1/3 mx-auto'
 				onSubmit={handleSubmit(submit)}
 			>
 				<p className='text-lg'>Enter your PIN Code and nickname</p>

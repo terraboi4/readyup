@@ -98,7 +98,7 @@ export default function NewSet() {
 
 		for (const key in data) {
 			if (key.includes('answer') || key.endsWith('questionTitle')) {
-				questions += data[key] + ', ';
+				questions += data[key] + ' | ';
 			} else if (key.includes('setTitle')) {
 				title += data[key];
 			}
@@ -120,7 +120,7 @@ export default function NewSet() {
 		setLoading(true);
 
 		await addDoc(setsRef, {
-			questions: condenseQuestion(data).questions,
+			questions: condenseQuestion(data).questions.replace(/["]+/g, ''),
 			user: user?.id,
 			setTitle: condenseQuestion(data).title,
 			createdAt: serverTimestamp(),
